@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Weather Forecaster</title>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+    <form action="/api/weather" method="POST">
+      City:<br>
+    <input type="text" name="city" value="Input City">
+      <br>
+    <input type="submit" value="Submit">
+  </form>
+  <div class="weather">
+    <% if (weekData != undefined) {%>
+      <%= weekData %>
+    <% } %>
+  </div>
+  </body>
+</html>
