@@ -7,14 +7,34 @@
 
     <form action="/api/weather" method="POST">
       City:<br>
-    <input type="text" name="city" value="Input City">
+    <input type="text" id="city" name="city" placeholder="Input City">
       <br>
-    <input type="submit" value="Submit">
+    <input type="submit" value="Search">
   </form>
   <div class="weather">
     <% if (weekData != undefined) {%>
-      <%= weekData %>
+    <br />
+    <span>The weather for <b><%=city %></b> is:</span>
+    <table style="width: 100%;">
+    <tr>
+      <% weekData.map((day) => {%>
+
+        <th><%= day.day%></th>
+      <%}) %>
+      </tr>
+      <tr style="font-size:0.75em;  text-align: center;">
+      <% weekData.map((day) => {%>
+        <td>
+        Temperature: <%=day.temperature.morn %><br />
+        Morning: <%=day.temperature.eve %><br />
+        Evening: <%=day.temperature.avg %>
+        <br />
+        Conditions: <br /><%=day.temperature.conditions %>
+        </td>
+      <%})%>
+      </tr>
     <% } %>
+    </table>
   </div>
   </body>
 </html>
