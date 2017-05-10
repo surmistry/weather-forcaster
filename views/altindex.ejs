@@ -22,13 +22,14 @@
               let today = new Date().getDay()
               let dayCount = 0
               let dataArr = []
+              let pressure = 0.00
 
               data.list.map( function(day) {
                 console.log(day)
                 let temp = day.temp
                 let avg = Math.round(( Number(temp.max) + Number(temp.min) ) / 2)
                 let wobj = {
-                  day: week[today + dayCount] ,
+                  day: week[(today + dayCount)%7] ,
                   temp: {
                     morn: temp.morn,
                     eve: temp.eve,
@@ -38,22 +39,24 @@
                   }
                 dayCount += 1
                 dataArr.push(wobj)
+                pressure += Number(day.pressure)
               })
+              pressure = Math.round(pressure/7)
               console.log(dataArr)
               $sendStr += `<br /><span>The weather for <b>${val}</b> is:</span><table style="width: 100%;"><tr>`
               $secondStr += `<tr style="font-size:0.75em;  text-align: center;">`
               dataArr.map((day) => {
                 $sendStr += `<th>${day.day}</th>`
                 $secondStr += `<td>
-                    Temperature: ${day.temp.morn} <br />
-                    Morning: ${day.temp.eve}<br />
-                    Evening: ${day.temp.avg}
+                    Temperature: ${day.temp.morn} °C <br />
+                    Morning: ${day.temp.eve} °C<br />
+                    Evening: ${day.temp.avg} °C
                     <br />
                     Conditions: <br />${day.temp.conditions}
                     </td>`
 
               })
-              $sendStr += `</tr>${$secondStr}</tr></table>`
+              $sendStr += `</tr>${$secondStr}</tr></table><br /><span>Average pressure for the week is: <b>${pressure}</b>`
 
               $(".weather").html($sendStr)
 
