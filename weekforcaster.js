@@ -2,6 +2,8 @@
   DEVELOPED BY SURAJ MISRTRY
 
   www.github.com/surmistry
+
+  execute using "node weekforecaster.js"
 */
 require('dotenv').config()
 const express = require("express")

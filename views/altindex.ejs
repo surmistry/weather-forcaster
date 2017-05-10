@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Weather Forecaster</title>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+
+    <script>
+      $(function() {
+        const week = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+
+        $("#submit").on("click",function(){
+          var val = $("#city").val()
+          $.ajax({
+            method: "GET",
+            url:    "http://api.openweathermap.org/data/2.5/forecast/daily?q=${val}&mode=xml&units=metric&cnt=7&APPID=8c51a795eef29f8e96c683d549e31eb0",
+            dataType: "jsonp",
+            success: function(data){
+              let $sendStr = ''
+              let $secondStr = ''
+              let today = new Date().getDay()
+              let dayCount = 0
+              let dataArr = []
+
+              data.list.map( function(day) {
+                console.log(day)
+                let temp = day.temp
+                let avg = Math.round(( Number(temp.max) + Number(temp.min) ) / 2)
+                let wobj = {
+                  day: week[today + dayCount] ,
+                  temp: {
+                    morn: temp.morn,
+                    eve: temp.eve,
+                    avg: (avg),
+                    conditions: day.weather[0].description
+                    }
+                  }
+                dayCount += 1
+                dataArr.push(wobj)
+              })
+              console.log(dataArr)
+              $sendStr += `<br /><span>The weather for <b>${val}</b> is:</span><table style="width: 100%;"><tr>`
+              $secondStr += `<tr style="font-size:0.75em;  text-align: center;">`
+              dataArr.map((day) => {
+                $sendStr += `<th>${day.day}</th>`
+                $secondStr += `<td>
+                    Temperature: ${day.temp.morn} <br />
+                    Morning: ${day.temp.eve}<br />
+                    Evening: ${day.temp.avg}
+                    <br />
+                    Conditions: <br />${day.temp.conditions}
+                    </td>`
+
+              })
+              $sendStr += `</tr>${$secondStr}</tr></table>`
+
+              $(".weather").html($sendStr)
+
+
+            }
+
+
+
+
+          })
+        })
+      })
+    </script>
+
+    <body>
+    <!-- <form action="/api/weather" method="POST"> -->
+      City:<br>
+    <input type="text" id="city" placeholder="Input City" value="">
+      <br>
+    <button id="submit" value="Search"></button>
+  <!-- </form> -->
+  <div class="weather">
+
+  </div>
+  </body>
+</html>
