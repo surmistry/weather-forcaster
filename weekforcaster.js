@@ -68,7 +68,7 @@ app.post("/api/weather", (req,res) => {
       }
 
 
-      res.status(response.statusCode).render('index', {weekData: tempvars, city: city} )
+      res.status(response.statusCode).render('angularindex', {weekData: tempvars, city: city} )
     })
 
 })
