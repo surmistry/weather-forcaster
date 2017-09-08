@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Weather Forecaster</title>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <div ng-app="">
+      <form action="/api/weather" method="POST">
+          City:<br>
+        <input type="text" id="city" name="city" placeholder="Input City">
+          <br>
+        <input type="submit" value="Search">
+      </form>
+      <div class="weather">
+        <% if (weekData != undefined) {%>
+        <br />
+        <span>The weather for <b><%=city %></b> is:</span>
+        <table style="width: 100%;">
+        <tr>
+          <% weekData.map((day) => {%>
+
+            <th><%= day.day%></th>
+          <%}) %>
+          </tr>
+          <tr style="font-size:0.75em;  text-align: center;">
+          <% weekData.map((day) => {%>
+            <td>
+            Temperature: <%=day.temperature.morn %><br />
+            Morning: <%=day.temperature.eve %><br />
+            Evening: <%=day.temperature.avg %>
+            <br />
+            Conditions: <br /><%=day.temperature.conditions %>
+            </td>
+          <%})%>
+          </tr>
+        <% } %>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
